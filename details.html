@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="car.css">
+    <title>Car Garage</title>
+  </head>
+  <body>
+    <div id="details-of-cars">
+
+    </div>
+    <script type="text/javascript">
+    var QuerySelect=window.location.search.substring(1).split("&");
+    for (i in QuerySelect) {
+      if (QuerySelect[i]==="")
+        continue;
+        var parameter=QuerySelect[i].split("=");
+        console.log(parameter);
+
+    }
+
+    function JsonFile(file,callback){
+      var cars=new XMLHttpRequest();
+      cars.overrideMimeType("application/json");
+      cars.open("GET",file,true);
+      cars.onreadystatechange=function(){
+        if (cars.readyState===4 && cars.status=="200") {
+          callback(cars.responseText);
+        }
+      }
+      cars.send(null);
+    };
+    JsonFile("data.json",function(text){
+      var data=JSON.parse(text);
+      console.log(data);
+      getCardata(data.car);
+    })
+    var body=document.getElementById("details-of-cars");
+    function getCardata(carInfo){
+      // var Main=document.createElement("div");
+      // Main.classList.add("Maindiv");
+      for(i in carInfo){
+        if(carInfo[i].id==parameter[1]){
+          var main1=document.createElement("div");
+          main1.classList.add("main1");
+          var image=document.createElement("img");
+          image.src=carInfo[i].image;
+          main1.appendChild(image);
+          var main2=document.createElement("div");
+          main2.classList.add("main2");
+          var h3=document.createElement("h3");
+          h3.textContent=carInfo[i].name;
+          main2.appendChild(h3);
+          var price=document.createElement("p");
+          price.textContent=carInfo[i].price;
+          price.style.fontWeight="550";
+          main2.appendChild(price);
+          var table=document.createElement("table");
+          table.border="1px";
+          var tr=document.createElement("tr");
+          var td1=document.createElement("td");
+          td1.textContent=carInfo[i].exshowroom;
+          tr.appendChild(td1);
+          var td2=document.createElement("td");
+          td2.textContent=carInfo[i].exshowroomprice;
+          tr.appendChild(td2);
+
+          var tr1=document.createElement("tr");
+          var td3=document.createElement("td");
+          td3.textContent=carInfo[i].rto;
+          tr1.appendChild(td3);
+          var td4=document.createElement("td");
+          td4.textContent=carInfo[i].rtotax;
+          tr1.appendChild(td4);
+
+          var tr2=document.createElement("tr");
+          var td5=document.createElement("td");
+          td5.textContent=carInfo[i].Insurance;
+          tr2.appendChild(td5);
+          var td6=document.createElement("td");
+          td6.textContent=carInfo[i].Insurancetax;
+          tr2.appendChild(td6);
+
+          var tr4=document.createElement("tr");
+          var td9=document.createElement("td");
+          td9.textContent=carInfo[i].TaxSource;
+          tr4.appendChild(td9);
+          var td10=document.createElement("td");
+          td10.textContent=carInfo[i].TaxSourcetax;
+          tr4.appendChild(td10);
+
+          var tr3=document.createElement("tr");
+          var td7=document.createElement("td");
+          td7.textContent=carInfo[i].OnRoadPrice;
+          td7.style.fontWeight="550";
+
+          tr3.appendChild(td7);
+          var td8=document.createElement("td");
+          td8.textContent=carInfo[i].TotalOnRoadPrice;
+          td8.style.fontWeight="550";
+
+          tr3.appendChild(td8);
+
+          table.appendChild(tr);
+          table.appendChild(tr1);
+          table.appendChild(tr2);
+          table.appendChild(tr4);
+          table.appendChild(tr3);
+
+          body.appendChild(main1);
+          body.appendChild(main2);
+          body.appendChild(table);
+
+
+        }
+
+      }
+    }
+
+    </script>
+
+  </body>
+</html>
